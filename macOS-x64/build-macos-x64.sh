@@ -116,9 +116,9 @@ copyBuildDirectory() {
     mkdir -p ${TARGET_DIRECTORY}/darwinpkg
 
     #Copy cellery product to /Library/Cellery
-    mkdir -p ${TARGET_DIRECTORY}/darwinpkg/Library/${PRODUCT}/${VERSION}
-    cp -a ./application/. ${TARGET_DIRECTORY}/darwinpkg/Library/${PRODUCT}/${VERSION}
-    chmod -R 755 ${TARGET_DIRECTORY}/darwinpkg/Library/${PRODUCT}/${VERSION}
+    mkdir -p ${TARGET_DIRECTORY}/darwinpkg/Applications/${PRODUCT}/${VERSION}
+    cp -a ./application/. ${TARGET_DIRECTORY}/darwinpkg/Applications/${PRODUCT}/${VERSION}
+    chmod -R 755 ${TARGET_DIRECTORY}/darwinpkg/Applications/${PRODUCT}/${VERSION}
 
     rm -rf ${TARGET_DIRECTORY}/package
     mkdir -p ${TARGET_DIRECTORY}/package
@@ -131,7 +131,7 @@ copyBuildDirectory() {
 
 function buildPackage() {
     log_info "Apllication installer package building started.(1/3)"
-    pkgbuild --identifier org.${PRODUCT}.${VERSION} \
+    pkgbuild --identifier com.evermoredata.store \
     --version ${VERSION} \
     --scripts ${TARGET_DIRECTORY}/darwin/scripts \
     --root ${TARGET_DIRECTORY}/darwinpkg \
@@ -174,9 +174,9 @@ function createInstaller() {
 }
 
 function createUninstaller(){
-    cp darwin/Resources/uninstall.sh ${TARGET_DIRECTORY}/darwinpkg/Library/${PRODUCT}/${VERSION}
-    sed -i '' -e "s/__VERSION__/${VERSION}/g" "${TARGET_DIRECTORY}/darwinpkg/Library/${PRODUCT}/${VERSION}/uninstall.sh"
-    sed -i '' -e "s/__PRODUCT__/${PRODUCT}/g" "${TARGET_DIRECTORY}/darwinpkg/Library/${PRODUCT}/${VERSION}/uninstall.sh"
+    cp darwin/Resources/uninstall.sh ${TARGET_DIRECTORY}/darwinpkg/Applications/${PRODUCT}/${VERSION}
+    sed -i '' -e "s/__VERSION__/${VERSION}/g" "${TARGET_DIRECTORY}/darwinpkg/Applications/${PRODUCT}/${VERSION}/uninstall.sh"
+    sed -i '' -e "s/__PRODUCT__/${PRODUCT}/g" "${TARGET_DIRECTORY}/darwinpkg/Applications/${PRODUCT}/${VERSION}/uninstall.sh"
 }
 
 #Pre-requisites

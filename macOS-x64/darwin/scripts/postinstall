@@ -1,20 +1,33 @@
 #!/bin/bash
 
 #Custermize this for your application
-APPLICATION_FILE_PATH=bin/wso2server.sh
+APPLICATION_FILE_PATH=Evermore.app
 
 #Parameters
-PRODUCT_HOME=/Library/__PRODUCT__/__VERSION__
+PRODUCT_HOME=/Applications/__PRODUCT__/__VERSION__
 
 echo "Post installation process started"
 
-#Change permissions in home directory
-echo "Change permissions in product home"
-cd ${PRODUCT_HOME}
-chmod -R 755 .
-[ -d /usr/local/bin ] || mkdir /usr/local/bin
+chmod +x /Applications/__PRODUCT__/__VERSION__/uninstall.sh
 
-#Add application shortcut to /usr/local/bin
-rm -f /usr/local/bin/__PRODUCT__-__VERSION__
-ln -s ${PRODUCT_HOME}/${APPLICATION_FILE_PATH} /usr/local/bin/__PRODUCT__-__VERSION__
+# osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/Evermore/Evermore.app", hidden:true}'
+sudo cat > /Library/LaunchAgents/com.evermoredata.store.plist << EOT
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.your.application.agent</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Applications/Evermore/0.9.2/Evermore.app/Contents/MacOS/evermore</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+</dict>
+</plist>
+EOT
+
+mkdir ~/Library/Group\ Containers/com.evermoredata.store
+open /Applications/__PRODUCT__/__VERSION__/Evermore.app
 echo "Post installation process finished"

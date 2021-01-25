@@ -1,0 +1,32 @@
+#!/bin/bash
+
+#Custermize this for your application
+APPLICATION_FILE_PATH=Evermore.app
+
+#Parameters
+PRODUCT_HOME=/Applications/Evermore/0.9.2
+
+echo "Post installation process started"
+
+chmod +x /Applications/Evermore/0.9.2/uninstall.sh
+
+# osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/Evermore/Evermore.app", hidden:true}'
+sudo cat > /Library/LaunchAgents/com.evermoredata.store.plist << EOT
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.your.application.agent</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Applications/Evermore/0.9.2/Evermore.app/Contents/MacOS/evermore</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+</dict>
+</plist>
+EOT
+mkdir ~/Library/Group\ Containers/com.evermoredata.store
+open /Applications/Evermore/0.9.2/Evermore.app
+echo "Post installation process finished"
